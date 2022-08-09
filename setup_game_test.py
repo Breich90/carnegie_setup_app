@@ -4,6 +4,7 @@ import unittest
 from setup_game import (
     _random_generator,
     BASE_SETUP,
+    BLOCKING_MARKERS_COUNT,
     Department,
     DEPARTMENT_COUNT,
     EXPANSION_SETUP,
@@ -129,3 +130,10 @@ class SetupGameTest(unittest.TestCase):
                 department_count += value['count']
         self.assertEqual(department_count, DEPARTMENT_COUNT[4])
         pass
+
+    def test_blocked_cities_2_player(self):
+        for x in range (1,100):
+            output = setup_game(BASE_SETUP, 2)
+            blocked_donation_count = len(set(output['blocked_discs']['donations']))
+            blocked_cities_count = len(set(output['blocked_discs']['cities']))
+            self.assertEqual(blocked_donation_count+blocked_cities_count, BLOCKING_MARKERS_COUNT[2])
