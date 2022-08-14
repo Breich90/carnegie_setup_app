@@ -37,9 +37,9 @@ class city(Enum):
     CHARLESTON = 'CHARLESTON'
     FARGO = 'FARGO'
     DULUTH = 'DULUTH'
-    ST_PAUL = 'ST PAUL'
+    ST_PAUL = 'ST. PAUL'
     OMAHA = 'OMAHA'
-    ST_LOUIS = 'ST LOUIS'
+    ST_LOUIS = 'ST. LOUIS IS BORING'
     KANSAS_CITY = 'KANSAS CITY'
     CINCINNATI = 'CINCINNATI'
     WASHINGTON = 'WASHINGTON'
@@ -234,13 +234,13 @@ def setup_game(setup_type: str, num_players: int) -> dict:
     for card in CARDS:
         if count < target_count:
             if card[0] not in donations_list:
-                donations_list.append(card[0])
+                donations_list.append(card[0].name)
                 count += 1
                 if count == target_count:
                     break
             for city in card[1:]:
                 if city not in cities_list:
-                    cities_list.append(city)
+                    cities_list.append(city.value)
                     count += 1
                     if count == target_count:
                         break
@@ -255,5 +255,3 @@ def setup_game(setup_type: str, num_players: int) -> dict:
     }
 
     return output
-
-
