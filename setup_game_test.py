@@ -1,7 +1,10 @@
+import math
 from random import random
 import unittest
 
-from setup_game import (
+from parameterized import parameterized
+
+from src.carnegie_setup.utils.setup_game import (
     _random_generator,
     BASE_SETUP,
     BLOCKING_MARKERS_COUNT,
@@ -17,59 +20,30 @@ class SetupGameTest(unittest.TestCase):
         self.assertEqual('Training And Partnerships', str(Department(1)))
         self.assertEqual('Sales', str(Department(6)))
 
-    def test_random_generator_2_player_base(self):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[2], BASE_SETUP)
+    @parameterized.expand([
+        (2, BASE_SETUP),
+        (3, BASE_SETUP),
+        (4, BASE_SETUP),
+        (2, EXPANSION_SETUP),
+        (3, EXPANSION_SETUP),
+        (4, EXPANSION_SETUP),
+    ])
+    def test_random_generator(self, player_count, setup_type):
+        result = _random_generator({}, 0, DEPARTMENT_COUNT[player_count], setup_type)
         count = 0
+        dep_counts = [0,0,0,0,0]
         for k, v in result.items():
-            if v < 0 or v > 2 or k < 1 or k > 16:
+            check = k
+            if check > 16: 
+                check = check - 16
+            dep_counts[math.ceil(check/4)] += 1
+            if v < 0 or v > 2 or k < 1 or k > 32:
                 self.fail()
             count = count + v
+        for x in dep_counts:
+            if x > 4:
+                self.fail()
         self.assertTrue(count == 16)
-    
-    def test_random_generator_3_player_base(self):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[3], BASE_SETUP)
-        count = 0
-        for k, v in result.items():
-            if v < 0 or v > 2 or k < 1 or k > 16:
-                self.fail()
-            count = count + v
-        self.assertTrue(count == 24)
-
-    def test_random_generator_4_player_base(self):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[4], BASE_SETUP)
-        count = 0
-        for k, v in result.items():
-            if v < 0 or v > 2 or k < 1 or k > 16:
-                self.fail()
-            count = count + v
-        self.assertTrue(count == 28)
-
-    def test_random_generator_2_player_expansion(self):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[2], EXPANSION_SETUP)
-        count = 0
-        for k, v in result.items():
-            if v < 0 or v > 2 or k < 1 or k > 32:
-                self.fail()
-            count = count + v
-        self.assertTrue(count == 16)
-    
-    def test_random_generator_3_player_expansion(self):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[3], EXPANSION_SETUP)
-        count = 0
-        for k, v in result.items():
-            if v < 0 or v > 2 or k < 1 or k > 32:
-                self.fail()
-            count = count + v
-        self.assertTrue(count == 24)
-
-    def test_random_generator_4_player_expansion(self):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[4], EXPANSION_SETUP)
-        count = 0
-        for k, v in result.items():
-            if v < 0 or v > 2 or k < 1 or k > 32:
-                self.fail()
-            count = count + v
-        self.assertTrue(count == 28)
 
     def test_formatted_output_2_player_base(self):
         output = setup_game(BASE_SETUP, 2)
@@ -137,3 +111,6 @@ class SetupGameTest(unittest.TestCase):
             blocked_donation_count = len(set(output['blocked_discs']['donations']))
             blocked_cities_count = len(set(output['blocked_discs']['cities']))
             self.assertEqual(blocked_donation_count+blocked_cities_count, BLOCKING_MARKERS_COUNT[2])
+
+if __name__ == '__main__':
+    unittest.main()

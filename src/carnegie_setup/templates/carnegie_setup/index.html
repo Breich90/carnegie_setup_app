@@ -1,0 +1,27 @@
+Player Order: {{ player_order }}
+
+Blocked Donations: 
+<ul>
+    {% for donation in blocked_discs.donations %}
+        <li>{{ donation }}</li>
+    {% endfor %}
+</ul>
+
+Blocked Cities: 
+<ul>
+    {% for city in blocked_discs.cities %}
+        <li>{{ city }}</li>
+    {% endfor %}
+</ul>
+
+Departments:
+<br><br>
+    {% for department_category, cat_values in departments.items %}
+    {{ department_category }}
+    <ul>
+        {% for department, dep_values in cat_values.items %}
+            <li>{{ dep_values.count }}x {{ department }} ({{ dep_values.department_id }})</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</ul>

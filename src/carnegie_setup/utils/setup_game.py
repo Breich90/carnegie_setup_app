@@ -1,5 +1,6 @@
-from copy import deepcopy
+from copy import copy, deepcopy
 from enum import Enum
+import math
 from random import randint, sample, shuffle
 from tkinter import W
 from turtle import circle
@@ -171,9 +172,19 @@ class Department(Enum):
         else:
             raise ValueError
 
-def _random_generator(output: dict, current_count: int, target_count: int, setup_type: str) -> dict:
+def _random_generator(
+    output: dict, 
+    current_count: int,
+    target_count: int, 
+    setup_type: str,
+    dep_count: list = [], 
+    ) -> dict:
     local_output = deepcopy(output)
     local_count = current_count
+    if dep_count == []:
+        local_dep_count = [0,0,0,0,0]
+    else:
+        local_dep_count = dep_count
     if current_count > target_count:
         raise ValueError
     elif current_count == target_count:
@@ -183,16 +194,24 @@ def _random_generator(output: dict, current_count: int, target_count: int, setup
             random_value = randint(1,16)
         else:
             random_value = randint(1,32)
-        if random_value in output:
-            if local_output[random_value] > 2:
-                pass
-            elif local_output[random_value] is 1:
-                local_output[random_value] += 1
-                local_count += 1         
-        else: 
-            local_output[random_value] = 1
-            local_count += 1
-        return _random_generator(local_output, local_count, target_count, setup_type)
+        check = random_value
+        if check > 16: 
+            check = check - 16
+        dep = math.ceil(check/4)
+        if local_dep_count[dep] == 2:
+            pass
+        else:
+            if random_value in output:
+                if local_output[random_value] > 2:
+                    pass
+                elif local_output[random_value] is 1:
+                    local_output[random_value] += 1
+                    local_count += 1         
+            else: 
+                local_output[random_value] = 1
+                local_count += 1
+            local_dep_count[dep] += 1
+        return _random_generator(local_output, local_count, target_count, setup_type, dep_count=local_dep_count)
 
 def setup_game(setup_type: str, num_players: int) -> dict:
     output = {

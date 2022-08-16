@@ -27,6 +27,17 @@ bcrypt = ["bcrypt"]
 argon2 = ["argon2-cffi (>=19.1.0)"]
 
 [[package]]
+name = "parameterized"
+version = "0.8.1"
+description = "Parameterized testing with any Python test framework"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+dev = ["jinja2"]
+
+[[package]]
 name = "sqlparse"
 version = "0.4.2"
 description = "A non-validating SQL parser."
@@ -45,11 +56,12 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "1ee73de322b29371a6b77e51a789b09d5e43999b9739088161a7633be53dcbae"
+content-hash = "f9ce33ade218a70f148a9e5f7f1e98a50aa203fc67a99cd2fd39a99fac076e31"
 
 [metadata.files]
 asgiref = []
 django = []
+parameterized = []
 sqlparse = [
     {file = "sqlparse-0.4.2-py3-none-any.whl", hash = "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"},
     {file = "sqlparse-0.4.2.tar.gz", hash = "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae"},
