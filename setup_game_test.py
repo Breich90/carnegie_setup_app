@@ -29,26 +29,27 @@ class SetupGameTest(unittest.TestCase):
         (4, EXPANSION_SETUP),
     ])
     def test_random_generator(self, player_count, setup_type):
-        result = _random_generator({}, 0, DEPARTMENT_COUNT[player_count], setup_type)
-        count = 0
-        dep_counts = [0,0,0,0,0]
-        for k, v in result.items():
-            check = k
-            if check > 16: 
-                check = check - 16
-            dep_counts[math.ceil(check/4)] += 1
-            if v < 0 or v > 2 or k < 1 or k > 32:
-                self.fail()
-            count = count + v
-        for x in dep_counts:
-            if x > 4:
-                self.fail()
-        if player_count is 2:
-            self.assertTrue(count == 16)
-        elif player_count is 3:
-            self.assertTrue(count == 24)
-        elif player_count is 4:
-            self.assertTrue(count == 28)
+        for x in range (1,10):
+            result = _random_generator({}, 0, DEPARTMENT_COUNT[player_count], setup_type)
+            count = 0
+            dep_counts = [0,0,0,0,0]
+            for k, v in result.items():
+                check = k
+                if check > 16: 
+                    check = check - 16
+                dep_counts[math.ceil(check/4)] += 1
+                if v < 0 or v > 2 or k < 1 or k > 32:
+                    self.fail()
+                count = count + v
+            for x in dep_counts:
+                if x > 4:
+                    self.fail()
+            if player_count is 2:
+                self.assertTrue(count == 16)
+            elif player_count is 3:
+                self.assertTrue(count == 24)
+            elif player_count is 4:
+                self.assertTrue(count == 28)
 
     @parameterized.expand([
         (2, BASE_SETUP),
@@ -59,14 +60,15 @@ class SetupGameTest(unittest.TestCase):
         (4, EXPANSION_SETUP),
     ])
     def test_formatted_output(self, player_count, setup_type):
-        output = setup_game(setup_type, player_count)
-        department_count = 0
-        for department_type, value in output['departments'].items():
-            for department, value in value.items():
-                self.assertTrue(Department(value['department_id']).department_type() == department_type)
-                department_count += value['count']
-        self.assertEqual(department_count, DEPARTMENT_COUNT[player_count])
-        pass
+        for x in range (1,10):
+            output = setup_game(setup_type, player_count)
+            department_count = 0
+            for department_type, value in output['departments'].items():
+                for department, value in value.items():
+                    self.assertTrue(Department(value['department_id']).department_type() == department_type)
+                    department_count += value['count']
+            self.assertEqual(department_count, DEPARTMENT_COUNT[player_count])
+            pass
 
     @parameterized.expand([
         (2, BASE_SETUP),
