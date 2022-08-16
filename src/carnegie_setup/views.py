@@ -7,7 +7,7 @@ from .utils.setup_game import (
 )
 
 def index(request):
-    num_players = 2
+    num_players = 3
     setup_type = EXPANSION_SETUP
     game = setup_game(setup_type, num_players)
     return render(request, 'carnegie_setup/index.html', context=game)

@@ -172,13 +172,34 @@ class Department(Enum):
         else:
             raise ValueError
 
+# def _random_number(start, stop, dep_count):
+#     num = randint(start, stop)
+#     if num > 16: 
+#         num -= 16
+#     if dep_count[math.ceil(num/4)] 
+
 def _random_generator(
     output: dict, 
     current_count: int,
     target_count: int, 
     setup_type: str,
     dep_count: list = [], 
+    dep_choices: list = []
     ) -> dict:
+
+    local_dep_choices = []
+
+    if dep_choices == []:
+        if setup_type == BASE_SETUP:
+            target_range = 16
+        else: 
+            target_range = 32
+        for x in range(1, target_range+1):
+            local_dep_choices.append(x)
+            local_dep_choices.append(x)
+    else:
+        local_dep_choices = dep_choices
+
     local_output = deepcopy(output)
     local_count = current_count
     if dep_count == []:
@@ -188,30 +209,34 @@ def _random_generator(
     if current_count > target_count:
         raise ValueError
     elif current_count == target_count:
-        return output
+        return local_output
     else:
-        if setup_type == BASE_SETUP:
-            random_value = randint(1,16)
-        else:
-            random_value = randint(1,32)
-        check = random_value
-        if check > 16: 
-            check = check - 16
-        dep = math.ceil(check/4)
-        if local_dep_count[dep] == 2:
-            pass
-        else:
-            if random_value in output:
-                if local_output[random_value] > 2:
+        while True:
+            random_value = randint(0,len(local_dep_choices)-1)
+            pure_check = local_dep_choices[random_value]
+            check = 0
+            if pure_check > 16: 
+                check = pure_check - 16
+            else:
+                check = pure_check
+            dep = math.ceil(check/4)
+            if pure_check in local_output:
+                if local_output[pure_check] is 2:
                     pass
-                elif local_output[random_value] is 1:
-                    local_output[random_value] += 1
-                    local_count += 1         
-            else: 
-                local_output[random_value] = 1
+                elif local_output[pure_check] is 1:
+                    local_output[pure_check] += 1
+                    local_count += 1    
+                    local_dep_choices.pop(random_value)
+                    break
+            elif local_dep_count[dep] < 4:
+                local_output[pure_check] = 1
                 local_count += 1
-            local_dep_count[dep] += 1
-        return _random_generator(local_output, local_count, target_count, setup_type, dep_count=local_dep_count)
+                local_dep_choices.pop(random_value)
+                local_dep_count[dep] += 1
+                break
+            else:
+                local_dep_choices.pop(random_value)
+        return _random_generator(local_output, local_count, target_count, setup_type, dep_count=local_dep_count, dep_choices = local_dep_choices)
 
 def setup_game(setup_type: str, num_players: int) -> dict:
     output = {
@@ -252,13 +277,13 @@ def setup_game(setup_type: str, num_players: int) -> dict:
     target_count = BLOCKING_MARKERS_COUNT[num_players]
     for card in CARDS:
         if count < target_count:
-            if card[0] not in donations_list:
+            if card[0].name not in donations_list:
                 donations_list.append(card[0].name)
                 count += 1
                 if count == target_count:
                     break
             for city in card[1:]:
-                if city not in cities_list:
+                if city.value not in cities_list:
                     cities_list.append(city.value)
                     count += 1
                     if count == target_count:
