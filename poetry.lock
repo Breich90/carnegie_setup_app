@@ -10,6 +10,21 @@ python-versions = ">=3.7"
 tests = ["mypy (>=0.800)", "pytest-asyncio", "pytest"]
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.11.1"
+description = "Screen-scraping library"
+category = "main"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
 name = "django"
 version = "4.1"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
@@ -27,6 +42,21 @@ bcrypt = ["bcrypt"]
 argon2 = ["argon2-cffi (>=19.1.0)"]
 
 [[package]]
+name = "django-bootstrap-v5"
+version = "1.0.11"
+description = "Bootstrap 5 support for Django projects"
+category = "main"
+optional = false
+python-versions = ">=3.6,<4.0"
+
+[package.dependencies]
+beautifulsoup4 = ">=4.8.0,<5.0.0"
+django = ">=2.2,<5.0"
+
+[package.extras]
+docs = ["sphinx (>=4.4,<5.0)", "sphinx_rtd_theme (>=1.0,<2.0)", "m2r2 (>=0.2.5,<0.3.0)"]
+
+[[package]]
 name = "parameterized"
 version = "0.8.1"
 description = "Parameterized testing with any Python test framework"
@@ -36,6 +66,14 @@ python-versions = "*"
 
 [package.extras]
 dev = ["jinja2"]
+
+[[package]]
+name = "soupsieve"
+version = "2.3.2.post1"
+description = "A modern CSS selector implementation for Beautiful Soup."
+category = "main"
+optional = false
+python-versions = ">=3.6"
 
 [[package]]
 name = "sqlparse"
@@ -56,12 +94,15 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f9ce33ade218a70f148a9e5f7f1e98a50aa203fc67a99cd2fd39a99fac076e31"
+content-hash = "e092844284d591358bab02eeedc0560ef846f0a9a648270c239844efdbdac5b1"
 
 [metadata.files]
 asgiref = []
+beautifulsoup4 = []
 django = []
+django-bootstrap-v5 = []
 parameterized = []
+soupsieve = []
 sqlparse = [
     {file = "sqlparse-0.4.2-py3-none-any.whl", hash = "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"},
     {file = "sqlparse-0.4.2.tar.gz", hash = "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae"},

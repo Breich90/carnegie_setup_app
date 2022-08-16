@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'carnegie_setup'
+    'carnegie_setup',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [

@@ -74,6 +74,9 @@ class donation(Enum):
     HEALTH_4 = 19
     HEALTH_5 = 20
 
+    def __str__(self):
+        return self.name.replace('_', ' ').title()
+
 
 CARDS = [
     [donation.WELFARE_3, city.SAN_ANTONIO, city.MEMPHIS, city.DALLAS],
@@ -277,14 +280,14 @@ def setup_game(setup_type: str, num_players: int) -> dict:
     target_count = BLOCKING_MARKERS_COUNT[num_players]
     for card in CARDS:
         if count < target_count:
-            if card[0].name not in donations_list:
-                donations_list.append(card[0].name)
+            if str(card[0]) not in donations_list:
+                donations_list.append(str(card[0]))
                 count += 1
                 if count == target_count:
                     break
             for city in card[1:]:
-                if city.value not in cities_list:
-                    cities_list.append(city.value)
+                if city.value.title() not in cities_list:
+                    cities_list.append(city.value.title())
                     count += 1
                     if count == target_count:
                         break
@@ -294,8 +297,8 @@ def setup_game(setup_type: str, num_players: int) -> dict:
             break
 
     output['blocked_discs'] = {
-        'donations': donations_list,
-        'cities': cities_list
+        'donations': sorted(donations_list),
+        'cities': sorted(cities_list)
     }
 
     return output
