@@ -1,15 +1,23 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'carnegie_setup/style.css' %}">
+
+<body>
 <h1>Carnegie Setup Generator</h1>
+<h3><a href="https://boardgamegeek.com/boardgame/310873/carnegie">Carnegie on BGG</a></h3>
 <h3>This small script automates player order and department selection; for 2- and 3-player games, blocked donations and cities are also generated.</h3>
 <h3>All of the automation cards were entered into the script, and the blocked tile draw/selection follows the rules of Carnegie's setup steps.</h3>
+<h3>This is a small work-in-progress; expect to see images for the departments soon, as well as for the blocked donations.</h3>
+<h3>You can follow the codebase <a href="https://github.com/Breich90/carnegie_setup_app">on Github</a>.</h3>
 <h4>Choose either Base or Expansion departments, as well as the number of players, and then press 'Generate New Setup'.</h4>
 <form action="/setup/" method="post" class="form">
     {% csrf_token %}
     <fieldset>
-        <input type="radio" name="game_type" id="base_setup" value="base_setup" checked>Base Departments
+        <input type="radio" name="game_type" id="base_setup" value="base_setup">Base Departments
         <input type="radio" name="game_type" id="expansion_setup" value="expansion_setup">Expansion Departments
     </fieldset>
     <fieldset>
-        <input type="radio" name="num_players" id="2" value ="2" checked> 2 Players
+        <input type="radio" name="num_players" id="2" value ="2"> 2 Players
         <input type="radio" name="num_players" id="3" value ="3"> 3 Players
         <input type="radio" name="num_players" id="4" value ="4"> 4 Players
     </fieldset>
@@ -62,3 +70,4 @@
 {% endif %}
 <br></br>
 Like the automation?  <a href="https://www.paypal.com/donate/?hosted_button_id=GYYPMUH35DZEE">Donate Here (Paypal)</a>
+</body>
